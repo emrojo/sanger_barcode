@@ -24,13 +24,13 @@ class Label
     plate_purpose = params.join(" ").strip
     return { :barcode => barcode, :plate_purpose => plate_purpose }
   end
-  
+
   def printable(printer_type, options)
     default_prefix = options[:prefix]
     barcode_type   = options[:type] || @barcode_type || "short"
     study_name     = options[:study_name]
     user_login    = options[:user_login]
-      
+
     # Contents for 1st and 2nd line in barcode label (Custom labels)
     label_name = [options[:label_name], @label_name].detect(&:present?)
     label_description = [options[:label_description], @label_description].detect(&:present?)
@@ -40,7 +40,8 @@ class Label
     suffix      = self.suffix
     description = self.barcode_description
     text        = self.barcode_text(default_prefix)
-    
+
+    barcode_type="custom-labels"
     case barcode_type
     when "long"
       text = "#{study_name}" if study_name
@@ -59,7 +60,7 @@ class Label
                             description,
                             text,
                             prefix,
-                            scope,
+                            text, #scope,  #text or description
                             suffix)
   end
 
